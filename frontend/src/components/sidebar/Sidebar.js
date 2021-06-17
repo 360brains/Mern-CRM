@@ -23,9 +23,9 @@ const Sidebar = () => {
                         </Link>
                             </li>
                             <li>
-                                <a href="/application">
+                                <Link to="/application">
                                     <i class="iconsminds-air-balloon-1"></i> Applications
-                        </a>
+                        </Link>
                             </li>
 
                             <li>
