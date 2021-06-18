@@ -1,81 +1,95 @@
 const User = require('../models/User');
-const bcrypt  = require('bcryptjs');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv')
 
 dotenv.config()
 
 
-exports.signupController = async (req,res) =>{
+exports.signupController = async (req, res) => {
 
-    const {username , email, password} = req.body
-  try{
-         const user = await User.findOne({email})
-           if(user){
-               return res.status(400).json({
-                   errorMessage: 'Email is already exist'
-               })
-           }
-            const newUser = new User()
-            newUser.username = username
-            newUser.email = email
-
-            const salt = await bcrypt.genSalt(10)
-            newUser.password = await bcrypt.hash(password, salt)
-
-            await newUser.save()
-
-            res.json({
-                successMessage: "Register Successfully.. Now go to SignIn"
+    const { username, email, password } = req.body
+    try {
+        const user = await User.findOne({ email })
+        if (user) {
+            return res.status(400).json({
+                errorMessage: 'Email is already exist'
             })
+        }
+        const newUser = new User()
+        newUser.username = username
+        newUser.email = email
 
-  }catch(error){
-        console.log("Server Error while creating new user" , error);
+        const salt = await bcrypt.genSalt(10)
+        newUser.password = await bcrypt.hash(password, salt)
+
+        await newUser.save()
+
+        res.json({
+            successMessage: "Register Successfully.. Now go to SignIn"
+        })
+
+    } catch (error) {
+        console.log("Server Error while creating new user", error);
         res.status(500).json({
             errorMessage: "Server Error while creating new user"
         })
-  }
+    }
 }
 
 
-exports.signinController = async (req,res) =>{
+exports.signinController = async (req, res) => {
 
-    const {email, password} = req.body
-  try{
-         const user = await User.findOne({email})
-           if(!user){
-               return res.status(400).json({
-                   errorMessage: 'Invalid Email or Password'
-               })
-           }
-
-            const isMatch = await bcrypt.compare(password , user.password)
-            if(!isMatch){
-                return res.status(400).json({
-                    errorMessage: 'Invalid Email or Password'
-                })
-            }
-    const payload = {
-        user:{
-            _id: user._id
+    const { email, password } = req.body
+    try {
+        const user = await User.findOne({ email })
+        if (!user) {
+            return res.status(400).json({
+                errorMessage: 'Invalid Email or Password'
+            })
         }
-    }
 
-      jwt.sign(payload , process.env.JWTSECRET , {expiresIn: process.env.JWTEXPIRE} , (err , token)=>{
+        const isMatch = await bcrypt.compare(password, user.password)
+        if (!isMatch) {
+            return res.status(400).json({
+                errorMessage: 'Invalid Email or Password'
+            })
+        }
+        const payload = {
+            user: {
+                _id: user._id
+            }
+        }
 
-            if(err) console.log('Jwt error' , err);
-             const {_id , username , email , role} = user
-             
-          res.json({
-              token,
-              user: {_id , username , email , role}
-          })
-      })
+        jwt.sign(payload, process.env.JWTSECRET, { expiresIn: process.env.JWTEXPIRE }, (err, token) => {
 
-  }catch(error){
-        console.log("Server Error while checking this user" , error);
+            if (err) console.log('Jwt error', err);
+            const { _id, username, email, role } = user
+
+            res.json({
+                token,
+                user: { _id, username, email, role }
+            })
+        })
+
+    } catch (error) {
+        console.log("Server Error while checking this user", error);
         res.status(500).json({
             errorMessage: "Server Error while checking this user"
         })
-  }
+    }
+}
+
+exports.featchUsers = async (req, res) => {
+    try {
+        User.find({})
+            .then((alluser) => {
+              return  res.status(200).json({ 'respones': alluser })
+            })
+            .catch((error)=>{
+               return res.status(400).json({'error':error})
+            })
+    } catch (error) {
+        console.log(error)
+    }
 }
