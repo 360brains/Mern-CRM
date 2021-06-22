@@ -1,139 +1,90 @@
-const asyncHandler =require ('express-async-handler')
-const Product = require('../models/Product.js')
+const Product = require("../models/Product.js");
+const fs = require("fs");
 
-// @desc    Fetch all products
-// @route   GET /api/products
-// @access  Public
-const getProducts = asyncHandler(async (req, res) => {
-  const pageSize = 10
-  const page = Number(req.query.pageNumber) || 1
+exports.create = async (req, res) => {
+  const { filename } = req.file;
+  const {
+    productName,
+    productPrice,
+    productDesc,
+    productQty,
+  } = req.body;
 
-  const keyword = req.query.keyword
-    ? {
-        name: {
-          $regex: req.query.keyword,
-          $options: 'i',
-        },
-      }
-    : {}
+  try {
+    let product = new Product();
+    product.fileName = filename;
+    product.productName = productName;
+    product.productPrice = productPrice;
+    product.productDesc = productDesc;
+    product.productQty = productQty;
 
-  const count = await Product.countDocuments({ ...keyword })
-  const products = await Product.find({ ...keyword })
-    .limit(pageSize)
-    .skip(pageSize * (page - 1))
-
-  res.json({ products, page, pages: Math.ceil(count / pageSize) })
-})
-
-// @desc    Fetch single product
-// @route   GET /api/products/:id
-// @access  Public
-const getProductById = asyncHandler(async (req, res) => {
-  const product = await Product.findById(req.params.id)
-
-  if (product) {
-    res.json(product)
-  } else {
-    res.status(404)
-    throw new Error('Product not found')
+    await product.save();
+    res.status(200).json({
+      product
+    });
+  } catch (error) {
+    console.log("Error when creating product", error);
+    res.status(500).json({
+      errorMessage: "Please try later",
+    });
   }
-})
-
-// @desc    Delete a product
-// @route   DELETE /api/products/:id
-// @access  Private/Admin
-const deleteProduct = asyncHandler(async (req, res) => {
-  const product = await Product.findById(req.params.id)
-
-  if (product) {
-    await product.remove()
-    res.json({ message: 'Product removed' })
-  } else {
-    res.status(404)
-    throw new Error('Product not found')
-  }
-})
-
-// @desc    Create a product
-// @route   POST /api/products
-// @access  Private/Admin
-const createProduct = async (req, res) => {
-  const {filename} = req.file
-  const {productName, productPrice, productDesc , productQty } = req.body
-
-try {
-
- let product = new Product() 
- product.fileName = filename
- product.productName = productName
- product.productDesc = productDesc
- product.productPrice = productPrice
- product.productQty = productQty
-
-
-    await product.save()
-       res.status(200).json({
-           product
-       })
-} catch (error) {
-console.log("Error when creating product", error);
-res.status(500).json({
- errorMessage: "Please try later",
-});
-}
 };
 
-// @desc    Update a product
-// @route   PUT /api/products/:id
-// @access  Private/Admin
-const updateProduct = asyncHandler(async (req, res) => {
-  const {
-    name,
-    price,
-    description,
-    image,
-  
-  } = req.body
-
-  const product = await Product.findById(req.params.id)
-
-  if (product) {
-    product.name = name
-    product.price = price
-    product.description = description
-    product.image = image
-
-
-    const updatedProduct = await product.save()
-    res.json(updatedProduct)
-  } else {
-    res.status(404)
-    throw new Error('Product not found')
-  }
-})
-
-const featchProducts = async (req, res) => {
+exports.readAll = async (req, res) => {
   try {
-      Product.find({})
-          .then((allproduct) => {
-            return  res.status(200).json({ 'respones': allproduct })
-          })
-          .catch((error)=>{
-             return res.status(400).json({'error':error})
-          })
+    const products = await Product.find({})
+
+    res.json({ products });
   } catch (error) {
-      console.log(error)
+    console.log("Error when fetching product", error);
+    res.status(500).json({
+      errorMessage: "Please try later",
+    });
   }
-}
+};
 
+exports.read = async (req, res) => {
+  try {
+    const productId = req.params.productId;
+    const product = await Product.findById(productId);
 
-module.exports= {
-  getProducts,
-  getProductById,
-  deleteProduct,
-  createProduct,
-  updateProduct,
-  featchProducts
-}
+    res.json(product);
+  } catch (err) {
+    console.log(err, "productController.read error");
+    res.status(500).json({
+      errorMessage: "Please try again later",
+    });
+  }
+};
 
+exports.update = async (req, res) => {
+  const productId = req.params.productId;
 
+  req.body.fileName = req.file.filename;
+
+  const oldProduct = await Product.findByIdAndUpdate(productId, req.body);
+
+  fs.unlink(`uploads/${oldProduct.fileName}`, (err) => {
+    if (err) throw err;
+    console.log("Image successfully deleted from the filesystem");
+  });
+
+};
+
+exports.delete = async (req, res) => {
+  try {
+    const productId = req.params.productId;
+    const deleteProduct = await Product.findByIdAndDelete(productId);
+
+    fs.unlink(`uploads/${deleteProduct.fileName}`, (err) => {
+      if (err) throw err;
+      console.log("When while delete images", deleteProduct.fileName);
+      res.json(deleteProduct);
+    });
+  } catch (error) {
+    console.log("Error when delete product", error);
+    res.status(500).json({
+      errorMessage: "Please try later",
+    });
+  }
+};

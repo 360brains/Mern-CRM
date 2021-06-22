@@ -1,24 +1,24 @@
 const express =require('express')
 const router = express.Router()
-const {
-  featchProducts,
-  getProductById,
-  deleteProduct,
-  createProduct,
-  updateProduct,
-}=require ('../controllers/Product')
 const { authenticateJWT } =require( '../middleware/authenticator')
 const upload = require('../middleware/multer')
+const productController = require('../controllers/Product')
 
-router.route('/').get(featchProducts).post( upload.single("productImage") , createProduct)
+router.post('/' , upload.single('productImage') ,
+    productController.create
+  )
+router.get('/' , productController.readAll
+  )
+router.delete('/:productId' , productController.delete)
+
+router.get('/:productId', productController.read);
+
+router.put(
+	'/:productId',
+	upload.single('productImage'),
+	productController.update
+);
 
 
-// router.route('/:id/reviews').post(protect, createProductReview)
-// router.get('/top', getTopProducts)
-// router
-//   .route('/:id')
-//   .get(getProductById)
-//   .delete(protect, admin, deleteProduct)
-//   .put(protect, admin, updateProduct)
 
 module.exports= router

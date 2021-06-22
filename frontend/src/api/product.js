@@ -1,6 +1,5 @@
 
 import axios from 'axios';
-import {getCookie}  from '../helpers/cookie';
 
 
 export const createProduct = async (productData) => {
@@ -17,10 +16,24 @@ export const createProduct = async (productData) => {
     return response
 }
 
+
+
 export const getProduct = async () => {
-
-    const response = await axios.get('/api/product')
-
+             
+    const response = await axios.get('/api/product' )
     return response
 }
 
+
+export const deleteProduct = async (productId) =>{
+
+  const response = await axios.delete(`/api/product/${productId}`)
+  return response
+}
+
+
+export const editProduct = async (productId) =>{
+
+  const response = await axios.get(`/api/product/${productId}`)
+  return response
+}

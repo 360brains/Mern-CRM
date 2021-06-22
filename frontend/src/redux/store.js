@@ -1,9 +1,10 @@
 
 import {combineReducers} from 'redux'
-import {getProductsReducer} from './reducer/fetchUser'
+import {getProductsReducer , productReducer} from './reducer/fetchUser'
 
 const AllReducers = combineReducers({
-    getProductsReducer
+    getProductsReducer,
+    productReducer
 
 })
 

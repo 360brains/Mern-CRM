@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Row, Card, CardBody, CardTitle, Table, Button } from 'reactstrap';
 import { Colxx } from '../common/CustomBootstrap';
 import DataForms from '../DataForms/DataForms';
 import { getProduct } from '../../api/product';
+
 
 const DefaultTable = () => {
 
