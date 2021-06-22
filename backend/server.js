@@ -3,7 +3,7 @@ const app = express()
 const connectDB = require('./database/db')
 const authRoutes = require('./routes/auth');
 const productRoutes=require('./routes/Product')
-const port = process.env.PORT || 4000
+const port = process.env.PORT || 6000
 
 
 connectDB()
