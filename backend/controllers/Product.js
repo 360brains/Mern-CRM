@@ -59,7 +59,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
 // @access  Private/Admin
 const createProduct = async (req, res) => {
   const {filename} = req.file
-  const {productName, productPrice, productDesc , productQty,userImage } = req.body
+  const {productName, productPrice, productDesc , productQty } = req.body
 
 try {
 

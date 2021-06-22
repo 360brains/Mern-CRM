@@ -3,26 +3,16 @@
 import React, { useState } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import {createProduct} from '../../api/product';
-import { ErrorMessage, WarningMessage } from '../Messages/message'
-import isEmpty from "validator/lib/isEmpty";
 
 
 const DataForms = (props) => {
 
-
-
  const [productData, setProductData] = useState({
-   productImage: "",
+   productImage: null,
    productName: "",
    productDesc: "",
    productPrice: "",
    productQty: "",
-
-   warningMsg: false,
-   errorMsg: false,
-   warningMsg: false,
-   errorMsg: false,
-   errorMsg: false
  });
  const {
      productImage,
@@ -39,7 +29,6 @@ const DataForms = (props) => {
      setProductData({
        ...productData,
        [e.target.name]: e.target.files[0],
-       warningMsg: false
      });
    };
  
@@ -47,29 +36,11 @@ const DataForms = (props) => {
      setProductData({
        ...productData,
        [e.target.name]: e.target.value,
-       successMsg: false,
-       errorMsg: false,
-       infoMsg: false,
-       warningMsg: false
      });
    };
  
    const handleProductSubmit = (e) => {
      e.preventDefault();
-     if (
-      isEmpty(productImage) ||
-      isEmpty(productName) ||
-      isEmpty(productDesc) ||
-      isEmpty(productPrice) ||
-      isEmpty(productQty)
-
-    )
-    {
-      setProductData({
-        ...productData,
-        infoMsg: "All Fields are required",
-      });
-    }
   let   formData = new FormData();
        formData.append("productImage", productImage);
        formData.append("productName", productName);

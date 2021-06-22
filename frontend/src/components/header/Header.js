@@ -25,15 +25,14 @@ const Header = () => {
                     </svg>
                 </a>
 
-                <div className="search" data-search-path="Pages.Search.html?q=">
+                {/* <div className="search" data-search-path="Pages.Search.html?q=">
                     <input placeholder="Search..." />
                     <span className="search-icon">
                         <i className="simple-icon-magnifier"></i>
                     </span>
-                </div>
+                </div> */}
 
-                <a className="btn btn-sm btn-outline-primary ml-3 d-none d-md-inline-block"
-                    href="https://1.envato.market/5kAb">&nbsp;BUY&nbsp;</a>
+               
             </div>
 
 
@@ -44,15 +43,15 @@ const Header = () => {
 
             <div className="navbar-right">
                 <div className="header-icons d-inline-block align-middle">
-                    <div className="d-none d-md-inline-block align-text-bottom mr-3">
+                    {/* <div className="d-none d-md-inline-block align-text-bottom mr-3">
                         <div className="custom-switch custom-switch-primary-inverse custom-switch-small pl-1"
                             data-toggle="tooltip" data-placement="left" title="Dark Mode">
                             <input className="custom-switch-input" id="switchDark" type="checkbox" checked />
                             <label className="custom-switch-btn" htmlFor="switchDark"></label>
                         </div>
-                    </div>
+                    </div> */}
 
-                    <div className="position-relative d-none d-sm-inline-block">
+                    {/* <div className="position-relative d-none d-sm-inline-block">
                         <button className="header-icon btn btn-empty" type="button" id="iconMenuButton" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
                             <i className="simple-icon-grid"></i>
@@ -89,14 +88,14 @@ const Header = () => {
                             </a>
 
                         </div>
-                    </div>
+                    </div> */}
 
                     <div className="position-relative d-inline-block">
-                        <button className="header-icon btn btn-empty" type="button" id="notificationButton"
+                        {/* <button className="header-icon btn btn-empty" type="button" id="notificationButton"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i className="simple-icon-bell"></i>
                             <span className="count">3</span>
-                        </button>
+                        </button> */}
                         <div className="dropdown-menu dropdown-menu-right mt-3 position-absolute" id="notificationDropdown">
                             <div className="scroll">
                                 <div className="d-flex flex-row mb-3 pb-3 border-bottom">
