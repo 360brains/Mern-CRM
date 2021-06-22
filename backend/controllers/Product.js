@@ -57,18 +57,31 @@ const deleteProduct = asyncHandler(async (req, res) => {
 // @desc    Create a product
 // @route   POST /api/products
 // @access  Private/Admin
-const createProduct = asyncHandler(async (req, res) => {
-  const product = new Product({
-    name: 'Sample name',
-    price: 0,
-    user: req.user._id,
-    image: '/images/sample.jpg',
-    description: 'Sample description',
-  })
+const createProduct = async (req, res) => {
+  const {filename} = req.file
+  const {productName, productPrice, productDesc , productQty,userImage } = req.body
 
-  const createdProduct = await product.save()
-  res.status(201).json(createdProduct)
-})
+try {
+
+ let product = new Product() 
+ product.fileName = filename
+ product.productName = productName
+ product.productDesc = productDesc
+ product.productPrice = productPrice
+ product.productQty = productQty
+
+
+    await product.save()
+       res.status(200).json({
+           product
+       })
+} catch (error) {
+console.log("Error when creating product", error);
+res.status(500).json({
+ errorMessage: "Please try later",
+});
+}
+};
 
 // @desc    Update a product
 // @route   PUT /api/products/:id
@@ -99,6 +112,20 @@ const updateProduct = asyncHandler(async (req, res) => {
   }
 })
 
+const featchProducts = async (req, res) => {
+  try {
+      Product.find({})
+          .then((allproduct) => {
+            return  res.status(200).json({ 'respones': allproduct })
+          })
+          .catch((error)=>{
+             return res.status(400).json({'error':error})
+          })
+  } catch (error) {
+      console.log(error)
+  }
+}
+
 
 module.exports= {
   getProducts,
@@ -106,4 +133,7 @@ module.exports= {
   deleteProduct,
   createProduct,
   updateProduct,
+  featchProducts
 }
+
+

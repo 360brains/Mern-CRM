@@ -1,85 +1,88 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Row, Card, CardBody, CardTitle, Table,Button } from 'reactstrap';
-import {Colxx} from '../common/CustomBootstrap';
+import { Row, Card, CardBody, CardTitle, Table, Button } from 'reactstrap';
+import { Colxx } from '../common/CustomBootstrap';
 import DataForms from '../DataForms/DataForms';
+import { getProduct } from '../../api/product';
 
 const DefaultTable = () => {
 
+  const [data, setData] = useState([])
 
   const [modal, setModal] = useState(false)
 
-  const handleModal = () =>{
-   setModal(true)
+  const handleModal = () => {
+    setModal(true)
   }
 
-  const handleCloseModal = () =>{
+  const loadData = async () => {
+
+    let { data } = await getProduct()
+
+    setData(data.products);
+    console.log(data.products);
+  }
+
+  useEffect(() => {
+    loadData()
+  }, [])
+
+  const handleCloseModal = () => {
     setModal(false)
   }
   return (
     <>
-    <main>  
+      <main>
 
-      <Row className="mb-5">
-        <Colxx xxs="12">
-          <Card className="mb-4">
-            <CardBody>
-            <Button variant="primary" onClick={handleModal}>Add Product</Button>
-              <CardTitle>
-                <className id="table.bootstrap-responsive" />
-              </CardTitle>
+        <Row className="mb-5">
+          <Colxx xxs="12">
+            <Card className="mb-4">
+              <CardBody>
+                <Button variant="primary" onClick={handleModal}>Add Product</Button>
+                <CardTitle>
+                  <className id="table.bootstrap-responsive" />
+                </CardTitle>
 
-              <Table responsive>
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Table heading</th>
-                    <th>Table heading</th>
-                    <th>Table heading</th>
-                    <th>Table heading</th>
-                    <th>Table heading</th>
-                    <th>Table heading</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Table cell</td>
-                    <td>Table cell</td>
-                    <td>Table cell</td>
-                    <td>Table cell</td>
-                    <td>Table cell</td>
-                    <td>Table cell</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Table cell</td>
-                    <td>Table cell</td>
-                    <td>Table cell</td>
-                    <td>Table cell</td>
-                    <td>Table cell</td>
-                    <td>Table cell</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>Table cell</td>
-                    <td>Table cell</td>
-                    <td>Table cell</td>
-                    <td>Table cell</td>
-                    <td>Table cell</td>
-                    <td>Table cell</td>
-                  </tr>
-                </tbody>
-              </Table>
-            </CardBody>
-          </Card>
-        </Colxx>
-      </Row>
-    </main>
+                <Table responsive>
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Name</th>
+                      <th>Description</th>
+                      <th>Price</th>
+                      <th>Quantity</th>
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {
+                      data && data ? <>
+                        {data.map((dat) => (
+                          <tr>
+                            <th scope="row">{dat._id}</th>
+                            <td>{dat.productName}</td>
+                            <td>{dat.productDesc}</td>
+                            <td>{dat.productPrice}</td>
+                            <td>{dat.productQty}</td>
+                            
+                          </tr>
+                        ))}
+                      </>
+                        : <div className="loading" />
+                    }
 
-{modal && modal === true ? 
-  <DataForms modal={modal} closeModal={handleCloseModal} />
-: null }
+
+                  </tbody>
+                </Table>
+              </CardBody>
+            </Card>
+          </Colxx>
+        </Row>
+      </main>
+
+      {modal && modal === true ?
+        <DataForms modal={modal} closeModal={handleCloseModal} />
+        : null}
     </>
   );
 };
