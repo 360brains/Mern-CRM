@@ -1,33 +1,169 @@
 
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import Forms from './Forms';
+import {createProduct} from '../../api/product';
+import { ErrorMessage, WarningMessage } from '../Messages/message'
+import isEmpty from "validator/lib/isEmpty";
 
 
 const DataForms = (props) => {
 
-  const SubmitData = () =>{
-    console.log("Data is Submitted");
-  }
+
+
+ const [productData, setProductData] = useState({
+   productImage: "",
+   productName: "",
+   productDesc: "",
+   productPrice: "",
+   productQty: "",
+
+   warningMsg: false,
+   errorMsg: false,
+   warningMsg: false,
+   errorMsg: false,
+   errorMsg: false
+ });
+ const {
+     productImage,
+     productName,
+     productDesc,
+     productPrice,
+     productQty,
+   } = productData;
+ 
+ 
+
+ 
+   const handleProductImage = (e) => {
+     setProductData({
+       ...productData,
+       [e.target.name]: e.target.files[0],
+       warningMsg: false
+     });
+   };
+ 
+   const handleProductChange = (e) => {
+     setProductData({
+       ...productData,
+       [e.target.name]: e.target.value,
+       successMsg: false,
+       errorMsg: false,
+       infoMsg: false,
+       warningMsg: false
+     });
+   };
+ 
+   const handleProductSubmit = (e) => {
+     e.preventDefault();
+     if (
+      isEmpty(productImage) ||
+      isEmpty(productName) ||
+      isEmpty(productDesc) ||
+      isEmpty(productPrice) ||
+      isEmpty(productQty)
+
+    )
+    {
+      setProductData({
+        ...productData,
+        infoMsg: "All Fields are required",
+      });
+    }
+  let   formData = new FormData();
+       formData.append("productImage", productImage);
+       formData.append("productName", productName);
+       formData.append("productDesc", productDesc);
+       formData.append("productPrice", productPrice);
+       formData.append("productQty", productQty);
+      
+       createProduct(formData).then( (response) =>{
+        setProductData({
+          productImage: null,
+          productName: "",
+          productDesc: "",
+          productPrice: "",
+          productQty: "",
+        })
+           console.log(response.data);
+          }).catch(err =>{
+            console.log("Error Found" , err);
+            setProductData({...productData})
+          })
+   };
+ 
 
 
   return (
-    <>
-    
-    <Modal style={{marginRight: "10px" ,marginTop:"5px"}} isOpen={props.modal}>
-    <ModalHeader  toggle={props.closeModal} >Modal title</ModalHeader>
-    <ModalBody>
-     <Forms/>
-    </ModalBody>
-    <ModalFooter>
-      <Button color="primary" onClick={SubmitData}>Do Something</Button>{' '}
-      <Button color="secondary" onClick={props.closeModal}>Cancel</Button>
-    </ModalFooter>
-  </Modal>
+    <form>
+
+      <Modal style={{ marginRight: "10px", marginTop: "5px" }} isOpen={props.modal}>
+        <ModalHeader toggle={props.closeModal} >Modal title</ModalHeader>
+        <ModalBody>
+        <label color="primary" className="btn btn-primary btn-shadow" style={{cursor: 'pointer'}}>
+                        Choose file
+                        <input
+                          type="file"
+                          name="productImage"
+                          onChange={handleProductImage} 
+                          defaultValue={productImage}
+                        />
+                      </label>
+
+          <div className="form-group">
+            <label className="text-secondary">Name</label>
+            <input
+              type="text"
+              className="form-control"
+              name="productName"
+              onChange={handleProductChange} 
+              id="name"
+              value={productName}
+            />
+          </div>
+          <div className="form-group">
+            <label className="text-secondary">Description</label>
+            <textarea
+              className="form-control"
+              rows="3"
+              name="productDesc"
+              onChange={handleProductChange}
+              id="description"
+              value={productDesc}
+            ></textarea>
+          </div>
+          <div className="form-group">
+            <label className="text-secondary">Price</label>
+            <input
+              type="text"
+              className="form-control"
+              name="productPrice"
+              onChange={handleProductChange}
+              id="price"
+              value={productPrice}
+            />
+          </div>
+            <div className="form-group">
+              <label className="text-secondary">Quantity</label>
+              <input
+                type="number"
+                className="form-control"
+                min="0"
+                name="productQty"
+                onChange={handleProductChange}
+                id="quantity"
+                value={productQty}
+              />
+            </div>
+        </ModalBody>
+        <ModalFooter>
+          <Button color="primary" type="submit" onClick={handleProductSubmit}>Submit</Button>{' '}
+          <Button color="secondary" onClick={props.closeModal}>Cancel</Button>
+        </ModalFooter>
+      </Modal>
 
 
-</>
+    </form>
   )
 }
 

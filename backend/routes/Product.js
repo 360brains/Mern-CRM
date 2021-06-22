@@ -1,15 +1,18 @@
 const express =require('express')
 const router = express.Router()
 const {
-  getProducts,
+  featchProducts,
   getProductById,
   deleteProduct,
   createProduct,
   updateProduct,
 }=require ('../controllers/Product')
-const { authenticateJWT, admin } =require( '../middleware/authenticator')
+const { authenticateJWT } =require( '../middleware/authenticator')
+const upload = require('../middleware/multer')
 
-router.route('/').get(getProducts).post(authenticateJWT, admin, createProduct)
+router.route('/').get(featchProducts).post( upload.single("productImage") , createProduct)
+
+
 // router.route('/:id/reviews').post(protect, createProductReview)
 // router.get('/top', getTopProducts)
 // router

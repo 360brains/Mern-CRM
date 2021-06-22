@@ -4,25 +4,28 @@ const dotenv = require('dotenv')
 
 dotenv.config()
 
-const authenticateJWT = (req,res,next) =>{
-     
-    const token = req.cookies.token
-   if(!token){
-      return res.status(401).json({
-           errorMessage: 'Authentication denied'
-       })
-   }
 
-   try{
-       const decode = jwt.verify(token , process.env.JWTSECRET)
-   req.user = decode.user
-   next()
-   }catch(error){
-       console.log("jwt error" , error);
-       res.status(401).json({
-        errorMessage: 'Invalid token'
-    })
-   } 
+
+exports.authenticateJWT = (req, res, next) => {
+
+  let token = req.headers.authorization;
+  if (!token) {
+      return res.status(401).json({
+          errorMessage: 'Authentication denied'
+      })
+  }
+
+  try {
+      token = token.split(' ')[1];
+      const decode = jwt.verify(token, process.env.JWTSECRET)
+      req.user = decode.user
+      next()
+  } catch (error) {
+      console.log("jwt error", error);
+      res.status(401).json({
+          errorMessage: 'Invalid token'
+      })
+  }
 }
 
 const admin = (req, res, next) => {
@@ -34,5 +37,4 @@ const admin = (req, res, next) => {
     }
   }
 
-  module.exports= { authenticateJWT, admin }
 
