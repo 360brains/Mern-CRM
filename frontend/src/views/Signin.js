@@ -23,16 +23,16 @@ const Signin = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    errorMsg: false,
-    warningMsg: false
+    errorMsg: "",
+    warningMsg: ""
   });
 
   const handleChange = (evt) => {
     setFormData({
       ...formData,
       [evt.target.name]: evt.target.value,
-      errorMsg: false,
-      warningMsg: false
+      errorMsg: "",
+      warningMsg: ""
     });
   };
   const handleSubmit = async (e) => {
@@ -61,7 +61,10 @@ const Signin = () => {
           if (storage && storage.role === 1) {
             history.push('/app')
           } else {
-            history.push('/app')
+            setFormData({
+              ...formData,
+              errorMsg: "It's seems that you are not an Admin",
+            });
           }
         })
         .catch((err) => {
@@ -77,6 +80,9 @@ const Signin = () => {
 
   return (
     <>
+     {getLocalStorage() && getLocalStorage().role === 1 ? (
+        history.push("/app")
+      ) : (
       <div className="background show-spinner no-footer">
         <div className="fixed-background"></div>
         <main>
@@ -106,8 +112,8 @@ const Signin = () => {
                       onSubmit={handleSubmit}
                       noValidate
                     >
-                      {errorMsg !== false ? ErrorMessage(errorMsg) : null}
-                      {warningMsg !== false ? WarningMessage(warningMsg) : null}
+                      {errorMsg !== "" ? ErrorMessage(errorMsg) : null}
+                      {warningMsg !== "" ? WarningMessage(warningMsg) : null}
                       <FormGroup className="form-group has-float-label">
                         <Label>Email</Label>
                         <Input
@@ -153,6 +159,8 @@ const Signin = () => {
           </div>
         </main>
       </div>
+      )
+}
     </>
   );
 };

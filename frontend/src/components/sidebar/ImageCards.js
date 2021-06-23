@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Row, Card, CardBody, Breadcrumb, CardImg, Button } from "reactstrap";
+import { Row, Card, CardBody, Breadcrumb, CardImg } from "reactstrap";
 import { Colxx } from '../common/CustomBootstrap';
-import {getProduct} from '../../api/product';
+import {getProduct , deleteProduct} from '../../api/product';
 
 const ImageCards = () => {
 
@@ -14,6 +14,11 @@ const ImageCards = () => {
     let { data } = await getProduct()
     setData(data.products);
   }
+
+       const handleDelete = (e,id) =>{
+        deleteProduct(id)
+        window.location.reload()
+       }
 
   useEffect(() => {
     loadData()
@@ -45,7 +50,10 @@ const ImageCards = () => {
                   <Colxx xxs="6" sm="4" md="3" className="mb-4">
                   <Card>
                   <CardBody className="text-center">
-                    <CardImg src={`${process.env.PUBLIC_URL}/img/cards/thumb-1.jpg`} />
+                    <CardImg src={`/uploads/${dat.fileName}`} 
+                    style={{width: "300px",
+                    height: "532px"}}
+                     />
                     <i className="iconsminds-basket-coins" />
                     <p className="card-text font-weight-semibold mb-0">
                       {dat.productName}
@@ -53,7 +61,7 @@ const ImageCards = () => {
                     <p className="lead text-center">
                        {dat.productQty}
                     </p>
-                    <Link to ='/edit'>
+                    <Link to={`/edit/${dat._id}`}>
                     <button
                       type="button"
                       className="btn btn-primary mb-1 mr-5"
@@ -64,6 +72,7 @@ const ImageCards = () => {
                     <button
                       type="button"
                       className="btn btn-danger mb-1"
+                      onClick={(e) => handleDelete(e, dat._id)}
                     >
                       Delete
                     </button>

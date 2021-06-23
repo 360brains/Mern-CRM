@@ -6,13 +6,15 @@ import {ErrorMessage } from "../Messages/message";
 
 
 const DataForms = (props) => {
+
+
   const [productData, setProductData] = useState({
     productImage: null,
     productName: "",
     productDesc: "",
     productPrice: "",
     productQty: "",
-    errorMessage: ""
+    errorMessage: "",
   });
   const { productImage, productName, productDesc, productPrice, productQty, errorMessage } =
     productData;
@@ -64,10 +66,8 @@ const DataForms = (props) => {
                 productDesc: "",
                 productPrice: "",
                 productQty: "",
-                errorMessage: ""
+                errorMessage: "",
               });
-              console.log(response.data);
-              // props.closeModal
             })
             .catch((err) => {
               console.log("Error Found", err);

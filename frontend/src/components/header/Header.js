@@ -1,6 +1,39 @@
-import React from 'react'
+import React,{useState,useEffect,useCallback} from 'react';
+import { getUserData } from "../../api/auth";
+import {useHistory } from "react-router-dom";
+import { logout } from "../../helpers/auth";
+import {
+    UncontrolledDropdown,
+    DropdownItem,
+    DropdownToggle,
+    DropdownMenu,
+  } from "reactstrap";
 
 const Header = () => {
+ 
+    let history = useHistory()
+
+    const [currentUserData, setCurrentUserData] = useState("");
+
+    const loadUser = useCallback(async () => {
+      try {
+        const userData = await getUserData();
+        setCurrentUserData(userData.data.user);
+      } catch (error) {
+        console.log("error found when fetch order data", error);
+      }
+    }, []);
+  
+    useEffect(() => {
+      loadUser();
+    }, [loadUser]);
+
+    const LogoutButtton = () => {
+        logout(() => {
+          history.push("/");
+        });
+      };
+    
     return (
         <nav className="navbar fixed-top">
             <div className="d-flex align-items-center navbar-left">
@@ -159,22 +192,26 @@ const Header = () => {
                 </div>
 
                 <div className="user d-inline-block">
-                    <button className="btn btn-empty p-0" type="button" data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false">
-                        <span className="name">Sarah Kortney</span>
-                        <span>
-                            <img alt="Profile Picture" src="img/profiles/l-1.jpg" />
-                        </span>
-                    </button>
-
-                    <div className="dropdown-menu dropdown-menu-right mt-3">
-                        <a className="dropdown-item" href="#">Account</a>
-                        <a className="dropdown-item" href="#">Features</a>
-                        <a className="dropdown-item" href="#">History</a>
-                        <a className="dropdown-item" href="#">Support</a>
-                        <a className="dropdown-item" href="#">Sign out</a>
-                    </div>
-                </div>
+            <UncontrolledDropdown className="dropdown-menu-right">
+              <DropdownToggle className="p-0" color="empty">
+                <span className="name mr-1">
+                  {currentUserData && currentUserData.username}
+                </span>
+                <span>
+                  {currentUserData && currentUserData.fileName ? (
+                    <img alt="Profile" src={`/uploads/${currentUserData.fileName}`} />
+                  ) : (
+                    <img alt="Profile" src="img/profiles/l-1.jpg" />
+                  )}
+                </span>
+              </DropdownToggle>
+              <DropdownMenu className="mt-3" right>
+              {/* <DropdownItem onClick={AccountPage}>Account</DropdownItem> */}
+                <DropdownItem divider />
+                <DropdownItem onClick={LogoutButtton}>Sign out</DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
+          </div>
             </div>
         </nav>
     )

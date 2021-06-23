@@ -93,3 +93,20 @@ exports.featchUsers = async (req, res) => {
         console.log(error)
     }
 }
+
+
+exports.readUser = async (req, res) => {
+    
+    const userId = req.user
+    try {
+        const user = await User.findById(userId)
+        res.json({
+            user
+        })
+    } catch (error) {
+        console.log("Error when fetching User data ", error);
+        res.status(500).json({
+            errorMessage: "Please try later",
+        });
+    }
+};

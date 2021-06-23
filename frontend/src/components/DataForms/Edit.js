@@ -1,80 +1,174 @@
-import React from 'react';
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import React,{useEffect, useState} from 'react';
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { editProduct } from '../../redux/action';
 
-const Edit = (props) => {
+const Edit = ({ match, history }) => {
+
+  const productId = match.params.productId;
+
+  const [productImage, setProductImage] = useState(null);
+  const [productName, setProductName] = useState("");
+  const [productDesc, setProductDesc] = useState("");
+  const [productPrice, setProductPrice] = useState("");
+  const [productQty, setProductQty] = useState("");
+
+  const dispatch = useDispatch();
+  const { product } = useSelector((state) => state.productReducer);
+
+  useEffect(() => {
+    if (!product) {
+     dispatch(editProduct(productId))
+    } else {
+      setProductImage(product.fileName);
+      setProductName(product.productName);
+      setProductPrice(product.productPrice);
+      setProductDesc(product.productDesc);
+      setProductQty(product.productQty);
+    }
+  }, [productId, product]);
+
+
+  const handleImageUpload = e => {
+		const image = e.target.files[0];
+		setProductImage(image);
+	};
+
+  const handleProductSubmit = async (e) => {
+    e.preventDefault();
+    let formData = new FormData();
+    formData.append("productImage", productImage);
+    formData.append("productName", productName);
+    formData.append("productDesc", productDesc);
+    formData.append("productPrice", productPrice);
+    formData.append("productQty", productQty);
+
+    const config = {
+      headers: {
+				'Content-Type': 'multipart/form-data',
+			},
+    };
+            await axios.put(`/api/product/${productId}`, formData, config).then((res) => {
+              history.push("/data");
+            }).catch((err) => {
+              console.log("eror", err);
+            });
+          
+  };
+
+  const backButton = () =>{
+    history.push("/app")
+  }
+  
   return (
-      <main>
-    <Form> 
-      <FormGroup>
-        <Label for="exampleEmail">Email</Label>
-        <Input type="email" name="email" id="exampleEmail" placeholder="with a placeholder" />
-      </FormGroup>
-      <FormGroup>
-        <Label for="examplePassword">Password</Label>
-        <Input type="password" name="password" id="examplePassword" placeholder="password placeholder" />
-      </FormGroup>
-      <FormGroup>
-        <Label for="exampleSelect">Select</Label>
-        <Input type="select" name="select" id="exampleSelect">
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-        </Input>
-      </FormGroup>
-      <FormGroup>
-        <Label for="exampleSelectMulti">Select Multiple</Label>
-        <Input type="select" name="selectMulti" id="exampleSelectMulti" multiple>
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-        </Input>
-      </FormGroup>
-      <FormGroup>
-        <Label for="exampleText">Text Area</Label>
-        <Input type="textarea" name="text" id="exampleText" />
-      </FormGroup>
-      <FormGroup>
-        <Label for="exampleFile">File</Label>
-        <Input type="file" name="file" id="exampleFile" />
-        <FormText color="muted">
-          This is some placeholder block-level help text for the above input.
-          It's a bit lighter and easily wraps to a new line.
-        </FormText>
-      </FormGroup>
-      <FormGroup tag="fieldset">
-        <legend>Radio Buttons</legend>
-        <FormGroup check>
-          <Label check>
-            <Input type="radio" name="radio1" />{' '}
-            Option one is this and that—be sure to include why it's great
-          </Label>
-        </FormGroup>
-        <FormGroup check>
-          <Label check>
-            <Input type="radio" name="radio1" />{' '}
-            Option two can be something else and selecting it will deselect option one
-          </Label>
-        </FormGroup>
-        <FormGroup check disabled>
-          <Label check>
-            <Input type="radio" name="radio1" disabled />{' '}
-            Option three is disabled
-          </Label>
-        </FormGroup>
-      </FormGroup>
-      <FormGroup check>
-        <Label check>
-          <Input type="checkbox" />{' '}
-          Check me out
-        </Label>
-      </FormGroup>
-      <Button>Submit</Button>
-    </Form>
-    </main>
+   <>
+     <main>
+     <div className="container my-3">
+<div className="row">
+  <div className="col-md-8 mx-auto">
+    <div>
+      <br />
+      <div className="modal-content">
+        <form onSubmit={handleProductSubmit}>
+          <div className="modal-header bg-primary text-white">
+            <h5 className="modal-title">Update Product</h5>
+          </div>
+          <div className="modal-body my-2">
+            <>
+              <label className="btn btn-dark mr-4">
+                Choose file
+                <input
+                  type="file"
+                  name="productImage"
+                  accept="images/*"
+                  hidden
+                  onChange={handleImageUpload}
+                />
+              </label>
+              {productImage && productImage.name ? (
+                <span className="badge bg-secondary">
+                  {productImage.name}
+                </span>
+              ) : productImage ? (
+                <img
+                  className="img-thumbnail"
+                  style={{
+                    width: "120px",
+                    height: "80px",
+                  }}
+                  src={`/uploads/${productImage}`}
+                  alt="product"
+                />
+              ) : null}
+
+              <div className="form-group">
+                <label className="text-secondary">Name</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="productName"
+                  value={productName}
+                  onChange={(e) => setProductName(e.target.value)}
+                />
+              </div>
+              <div className="form-group">
+                <label className="text-secondary">Description</label>
+                <textarea
+                  className="form-control"
+                  rows="3"
+                  name="productDesc"
+                  value={productDesc}
+                  onChange={(e) => setProductDesc(e.target.value)}
+                ></textarea>
+              </div>
+              <div className="form-group">
+                <label className="text-secondary">Price</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="productPrice"
+                  value={productPrice}
+                  onChange={(e) => setProductPrice(e.target.value)}
+                />
+              </div>
+              <div className="form-group">
+                  <label className="text-secondary">Quantity</label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    min="0"
+                    max="1000"
+                    name="productQty"
+                    value={productQty}
+                    onChange={(e) => setProductQty(e.target.value)}
+                  />
+                </div>
+            </>
+          </div>
+          <div className="modal-footer">
+            <button
+              type="submit"
+              className="btn btn-primary text-white"
+            >
+              Submit
+            </button>
+            <button
+              type="submit"
+              className="btn btn-primary text-white"
+              onClick={backButton}
+            >
+              Go Back
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</main>
+   </>
+     
     
   );
 }

@@ -6,7 +6,7 @@ dotenv.config()
 const MongoDB = async () =>{
      try{
       await  mongoose.connect(process.env.MONGODB_URL,
-       {useNewUrlParser: true , useUnifiedTopology: true , useFindAndModify: true});
+       {useNewUrlParser: true , useUnifiedTopology: true});
           console.log("successfully connect with databse");
      }catch(error){
        console.log("error Found ", error);

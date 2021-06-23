@@ -30,6 +30,10 @@ const DefaultTable = () => {
   const handleCloseModal = () => {
     setModal(false)
   }
+
+   const handleReload = () =>{
+       window.location.reload()
+   }
   return (
     <>
       <main>
@@ -81,7 +85,7 @@ const DefaultTable = () => {
       </main>
 
       {modal && modal === true ?
-        <DataForms modal={modal} closeModal={handleCloseModal} />
+        <DataForms modal={modal} closeModal={handleCloseModal} reload={handleReload} />
         : null}
     </>
   );

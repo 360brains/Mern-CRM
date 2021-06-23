@@ -50,26 +50,35 @@ exports.read = async (req, res) => {
 
     res.json(product);
   } catch (err) {
-    console.log(err, "productController.read error");
+    console.log(err, "read user error");
     res.status(500).json({
       errorMessage: "Please try again later",
     });
   }
 };
 
+
 exports.update = async (req, res) => {
-  const productId = req.params.productId;
 
-  req.body.fileName = req.file.filename;
 
+	const productId = req.params.productId;
+
+ if(req.file.filename){
+	req.body.fileName = req.file.filename;
   const oldProduct = await Product.findByIdAndUpdate(productId, req.body);
 
-  fs.unlink(`uploads/${oldProduct.fileName}`, (err) => {
-    if (err) throw err;
-    console.log("Image successfully deleted from the filesystem");
-  });
+	fs.unlink(`uploads/${oldProduct.fileName}`, err => {
+		if (err) throw err;
+		console.log('Image successfully deleted from the filesystem');
+	});
+    res.json(oldProduct)
+} else{
+  const response = await Product.findByIdAndUpdate(productId, req.body);
+  res.json(response);
+}
 
 };
+
 
 exports.delete = async (req, res) => {
   try {

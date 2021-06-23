@@ -9,24 +9,27 @@ import {
   Input,
   Button,
 } from "reactstrap";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory} from "react-router-dom";
 import { Colxx } from "../components/SepratorStyle/CustomStrap";
 import isEmail from "validator/lib/isEmail";
 import isEmpty from "validator/lib/isEmpty";
 import equals from "validator/lib/equals";
 import { SuccessMessage, ErrorMessage , InfoMessage , WarningMessage } from "../components/Messages/message";
 import {signup} from '../api/auth';
+import { getLocalStorage } from "../helpers/localStorage";
+
 
 const Signup = () => {
+  const history = useHistory()
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
     confirmPassword: "",
-    successMsg: false,
-    errorMsg: false,
-    infoMsg: false,
-    warningMsg: false
+    successMsg: "",
+    errorMsg: "",
+    infoMsg: "",
+    warningMsg: ""
   });
 
   const {
@@ -44,10 +47,10 @@ const Signup = () => {
     setFormData({
         ...formData,
         [evt.target.name]: evt.target.value,
-        successMsg: false,
-        errorMsg: false,
-        infoMsg: false,
-        warningMsg: false
+        successMsg: "",
+        errorMsg: "",
+        infoMsg: "",
+        warningMsg: ""
     })
       }
 
@@ -93,9 +96,9 @@ const Signup = () => {
           email: "",
           password: "",
           confirmPassword:"",
-          errorMsg: false,
-          infoMsg: false,
-          warningMsg: false,
+          errorMsg: "",
+          infoMsg: "",
+          warningMsg: "",
           successMsg: response.data.successMessage
         })
           }).catch(err =>{
@@ -105,6 +108,9 @@ const Signup = () => {
   };
   return (
     <>
+     {getLocalStorage() && getLocalStorage().role === 1 ? (
+        history.push("/app")
+      ) : (
       <div className="background show-spinner no-footer">
         <div className="fixed-background"></div>
         <main>
@@ -129,10 +135,10 @@ const Signup = () => {
                     </NavLink>
                     <CardTitle className="mb-4">Register</CardTitle>
                     <Form onSubmit={handleForm} noValidate>
-                      {infoMsg !== false ? InfoMessage(infoMsg) : null}
-                      {warningMsg !== false ? WarningMessage(warningMsg) : null}
-                      {successMsg !== false ? SuccessMessage(successMsg) : null}
-                      {errorMsg !== false ? ErrorMessage(errorMsg) : null}
+                      {infoMsg !== "" ? InfoMessage(infoMsg) : null}
+                      {warningMsg !== "" ? WarningMessage(warningMsg) : null}
+                      {successMsg !== "" ? SuccessMessage(successMsg) : null}
+                      {errorMsg !== "" ? ErrorMessage(errorMsg) : null}
                       <FormGroup className="form-group has-float-label  mb-4">
                         <Label>UserName</Label>
                         <Input type="text" 
@@ -181,6 +187,7 @@ const Signup = () => {
           </div>
         </main>
       </div>
+      )}
     </>
   );
 };
