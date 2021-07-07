@@ -25,7 +25,7 @@ const Error = () => {
                         Page not found
                     </p>
                     <p className="display-1 font-weight-bold mb-5">404</p>
-                    {getLocalStorage() && getLocalStorage().role === 1 ? (
+                    {getLocalStorage() && getLocalStorage().role === "admin" ? (
                       <Link
                         to="/admin/dashboard"
                         className="btn btn-primary btn-lg btn-shadow"

@@ -2,6 +2,7 @@ import React from 'react';
 import { useTable, usePagination, useSortBy } from "react-table";
 import classnames from "classnames";
 import Pagination from "./Paginations";
+import { Link } from "react-router-dom";
 
 
 const Tables = ({ columns, data, divided = false, defaultPageSize = 6 }) => {
@@ -59,6 +60,7 @@ const Tables = ({ columns, data, divided = false, defaultPageSize = 6 }) => {
         </thead>
 
         <tbody {...getTableBodyProps()}>
+
           {page.map((row) => {
             prepareRow(row);
             return (
@@ -73,6 +75,17 @@ const Tables = ({ columns, data, divided = false, defaultPageSize = 6 }) => {
                     {cell.render("Cell")}
                   </td>
                 ))}
+                {/* <td>delete</td> */}
+                <td>
+                <Link to={`/edituser/${row.original._id}`}>
+                    <button
+                      type="button"
+                      className="btn btn-primary mb-1 mr-5"
+                    >
+                      RolesID
+                    </button> 
+                    </Link>
+                </td>
               </tr>
             );
           })}

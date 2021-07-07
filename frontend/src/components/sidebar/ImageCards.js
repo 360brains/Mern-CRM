@@ -51,7 +51,7 @@ const ImageCards = () => {
                   <Card>
                   <CardBody className="text-center">
                     <CardImg src={`/uploads/${dat.fileName}`} 
-                    style={{width: "300px",
+                    style={{width: "220px",
                     height: "532px"}}
                      />
                     <i className="iconsminds-basket-coins" />

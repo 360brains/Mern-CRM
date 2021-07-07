@@ -80,17 +80,19 @@ exports.signinController = async (req, res) => {
     }
 }
 
-exports.featchUsers = async (req, res) => {
+exports.fetchUsers = async (req, res) => {
     try {
-        User.find({})
-            .then((alluser) => {
-              return  res.status(200).json({ 'respones': alluser })
-            })
-            .catch((error)=>{
-               return res.status(400).json({'error':error})
-            })
+
+        const allUsers = await User.find({})
+        res.json({
+            allUsers
+        })
+ 
     } catch (error) {
-        console.log(error)
+        console.log("Error when fetching User data ", error);
+        res.status(500).json({
+            errorMessage: "Please try later",
+        });
     }
 }
 

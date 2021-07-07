@@ -40,4 +40,20 @@ export const getUserData = async () => {
     return response;
   };
   
+
+  
+export const getAllUsers = async () => {
+    let token = getCookie();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+  
+    const response = await axios.get("/api/auth/alluser" , config);
+  
+    return response;
+  };
+  
+  
   

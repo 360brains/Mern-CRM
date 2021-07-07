@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Row,
   Card,
@@ -10,36 +10,53 @@ import {
 import { Colxx } from "../SepratorStyle/CustomStrap";
 import Table from "./Tables";
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { getUser } from '../../redux/action';
+import { getUserData, getAllUsers } from "../../api/auth";
 
 
 
 const OrdersList = () => {
 
-  const dispatch = useDispatch()
+  const [userData , setUserData] = useState()
+  const [singleUser, setSingleUser] = useState()
+ 
 
-  const getProducts = useSelector((state) => state.getProductsReducer);
-  const { Users } = getProducts
 
-  useEffect(() => {
-    getDispatchData()
-  }, [])
-  const getDispatchData = async () => {
-    await dispatch(getUser())
+  const getAllUserData = async () => {
+     
+    const {data} = await getAllUsers()
+
+    setUserData(data);
 
   }
 
-  const UsersData = Users && Users.respones
+  const getLoginUserData = async () => {
+     
+    const {data} = await getUserData()
+
+    setSingleUser(data.user._id);
+
+  }
+  
+  
+  useEffect(() => {
+    getAllUserData()
+    getLoginUserData()
+
+  }, [])
+
+    let loginUser = singleUser && singleUser
+
+   const UsersData = userData && userData.allUsers.filter((data) => data._id !== loginUser)
+  
 
   const cols = React.useMemo(
     () => [
-      {
-        Header: 'Id',
-        accessor: '_id',
-        cellClass: 'list-item-heading w-40',
-        Cell: (props) => <>{props.value}</>,
-      },
+      // {
+      //   Header: 'Id',
+      //   accessor: '_id',
+      //   cellClass: 'list-item-heading w-40',
+      //   Cell: (props) => <>{props.value}</>,
+      // },
       {
         Header: 'Name',
         accessor: 'username',
@@ -55,10 +72,18 @@ const OrdersList = () => {
       {
         Header: 'UpdatedAt',
         accessor: 'updatedAt',
-        cellClass: 'text-muted w-40',
+        cellClass: 'text-muted w-20',
         Cell: (props) => <>{props.value}</>,
       },
+      {
+        Header: 'Role',
+        accessor: 'role',
+        cellClass: 'text-muted w-10',
+        Cell: (props) => <>{props.value}</>,
+
+      },
     ],
+
     []
   );
 
@@ -81,13 +106,11 @@ const OrdersList = () => {
           </Colxx>
         </Row>
         {UsersData && UsersData ?
-
           <Row>
             <Colxx xxs="12">
               <Card className="mb-4">
                 <CardBody>
                   <CardTitle>
-
                   </CardTitle>
                   <Table columns={cols} data={UsersData} />
                 </CardBody>
@@ -96,7 +119,9 @@ const OrdersList = () => {
           </Row>
 
           :
+
           <div className="loading"></div>
+
         }
 
       </main>

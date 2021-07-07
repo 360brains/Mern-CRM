@@ -63,7 +63,7 @@ const DefaultTable = () => {
                       data && data ? <>
                         {data.map((dat) => (
                           <tr>
-                            <th scope="row">{dat._id}</th>
+                            <td scope="row">{dat._id}</td>
                             <td>{dat.productName}</td>
                             <td>{dat.productDesc}</td>
                             <td>{dat.productPrice}</td>
