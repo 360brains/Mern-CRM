@@ -31,7 +31,7 @@ const Sidebar = () => {
                             <li>
                                 <Link  to="/data">
                                 
-                                    <i class="iconsminds-three-arrow-fork"></i> Data
+                                    <i class="iconsminds-three-arrow-fork"></i> Product
                                     
                         </Link>
                             </li>

@@ -108,7 +108,7 @@ const Signup = () => {
   };
   return (
     <>
-     {getLocalStorage() && getLocalStorage().role === 1 ? (
+     {getLocalStorage() && getLocalStorage().role === "admin" ? (
         history.push("/app")
       ) : (
       <div className="background show-spinner no-footer">

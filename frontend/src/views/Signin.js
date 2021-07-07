@@ -58,7 +58,7 @@ const Signin = () => {
         .then((response) => {
           setAuthentication(response.data.token, response.data.user);
           let storage = getLocalStorage();
-          if (storage && storage.role === 1) {
+          if (storage && storage.role === "admin") {
             history.push('/app')
           } else {
             setFormData({
@@ -80,7 +80,7 @@ const Signin = () => {
 
   return (
     <>
-     {getLocalStorage() && getLocalStorage().role === 1 ? (
+     {getLocalStorage() && getLocalStorage().role === "admin" ? (
         history.push("/app")
       ) : (
       <div className="background show-spinner no-footer">
