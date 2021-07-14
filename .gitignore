@@ -1,5 +1,6 @@
 frontend/package-lock.json
 yarn.lock
 .env
+node_modules
 package-lock.json
 backend/package-lock.json
