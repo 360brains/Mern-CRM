@@ -1,0 +1,17 @@
+crm.360brains.com:
+  stage: deploy
+  environment:
+    name: crm
+    url: https://crm.360brains.com
+  before_script:
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  script:
+    - echo "Deploying to development site"
+    - ssh-add <(echo "$SSH_KEY")
+    - rm -rf .git
+    - ssh -o StrictHostKeyChecking=no crm.360brains.com@167.172.118.95 "cd crm-mern; git reset --hard; git pull;cd backend;npm install && pm2 reload 0; cd ../frontend; npm install && npm run build; exit"
+  only:
+    - master
