@@ -5,6 +5,7 @@ import {
   CardBody,
   CardTitle,
   Breadcrumb,
+  Button
 } from "reactstrap";
 
 import { Colxx } from "../SepratorStyle/CustomStrap";
@@ -92,17 +93,26 @@ const OrdersList = () => {
       <main>
         <Row>
           <Colxx xxs="12">
-            <h1>Orders</h1>
+            <h1>Users</h1>
             <Breadcrumb className="pt-0 breadcrumb-container d-none d-sm-block d-lg-inline-block">
               <ol className="breadcrumb pt-0">
                 <li className="breadcrumb-item">
-                  <Link to="/admin/dashboard">Home</Link>
+                  <Link to="/admin/dashboard">User</Link>
                 </li>
                 <li className="breadcrumb-item active" aria-current="page">
-                  all orders
+                  all Users
                 </li>
               </ol>
             </Breadcrumb>
+            <Link to ='/adduser'>
+                    <button
+                      type="button"
+                      className="btn btn-primary mb-1 mr-5"
+                    >
+                      Add User
+                    </button> 
+                    </Link>
+            {/* <Button variant="primary">Add User</Button> */}
           </Colxx>
         </Row>
         {UsersData && UsersData ?

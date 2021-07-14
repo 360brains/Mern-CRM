@@ -12,6 +12,17 @@ export const getUser = () => async (dispatch) => {
     }
 }
 
+export const addUser = userData => async dispatch => {
+
+  try{
+  const response = await axios.post('/api/auth/addUser')
+  dispatch({type: "CREATE_User" , payload: response.data.user})
+
+  }catch(err){
+      console.log("Error while creating user" , err);
+  }
+
+}
 
 export const createProduct = productData => async dispatch => {
 

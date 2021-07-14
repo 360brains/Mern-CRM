@@ -5,6 +5,7 @@ import { Switch, Redirect, Route, BrowserRouter as Router, } from "react-router-
 import UserTable from '../components/DataTables/UserTable';
 import Edit from '../components/DataForms/Edit';
 import UserEdit from '../components/User/UserEdit';
+import AddUser from '../components/User/AddUser';
 import ImageCards from "../components/sidebar/ImageCards";
 import DashboardAnalytics from "../components/DashboardAnalytics";
 import DataForms from "../components/DataForms/DataForms";
@@ -32,6 +33,7 @@ const Routing = () => {
               <Signup />
             </Route>
             <AdminRoutes exact path="/userTable" component={UserTable} />
+            <AdminRoutes exact path="/adduser" component={AddUser} />
             <AdminRoutes exact path="/edit/:productId" component={Edit} />
             <AdminRoutes exact path="/edituser/:userId" component={UserEdit} />
             <AdminRoutes exact path="/data" component={DefaultTable} />

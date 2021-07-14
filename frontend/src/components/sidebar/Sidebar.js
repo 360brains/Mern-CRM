@@ -24,7 +24,7 @@ const Sidebar = () => {
                             </li>
                             <li>
                                 <Link to="/application">
-                                    <i class="iconsminds-air-balloon-1"></i> Applications
+                                    <i class="iconsminds-air-balloon-1"></i> EditProduct
                         </Link>
                             </li>
 

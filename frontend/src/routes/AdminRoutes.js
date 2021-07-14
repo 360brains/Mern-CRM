@@ -11,7 +11,7 @@ const AdminRoute = ({component: Component , ...rest }) => {
             {...rest}
             render = {(props) => 
                {
-                 if(getLocalStorage() && getLocalStorage().role === "admin"){
+                 if(getLocalStorage() && getLocalStorage().role !== ""){
             return   ( <> <Header /> <Sidebar /> <Component {...props} /> <Footer /> </> )
                  }else{
                    return  <Redirect to="/"/>

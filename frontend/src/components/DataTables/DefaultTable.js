@@ -50,7 +50,7 @@ const DefaultTable = () => {
                 <Table responsive>
                   <thead>
                     <tr>
-                      <th>ID</th>
+                      {/* <th>ID</th> */}
                       <th>Name</th>
                       <th>Description</th>
                       <th>Price</th>
@@ -63,7 +63,7 @@ const DefaultTable = () => {
                       data && data ? <>
                         {data.map((dat) => (
                           <tr>
-                            <td scope="row">{dat._id}</td>
+                            {/* <td scope="row">{dat._id}</td> */}
                             <td>{dat.productName}</td>
                             <td>{dat.productDesc}</td>
                             <td>{dat.productPrice}</td>

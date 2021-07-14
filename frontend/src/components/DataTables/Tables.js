@@ -3,6 +3,7 @@ import { useTable, usePagination, useSortBy } from "react-table";
 import classnames from "classnames";
 import Pagination from "./Paginations";
 import { Link } from "react-router-dom";
+import { deleteUser } from '../../api/auth';
 
 
 const Tables = ({ columns, data, divided = false, defaultPageSize = 6 }) => {
@@ -27,6 +28,19 @@ const Tables = ({ columns, data, divided = false, defaultPageSize = 6 }) => {
     useSortBy,
     usePagination
   );
+  const handleDelete = (e,id) =>{
+    console.log('id',id);
+    deleteUser(id).then(
+(res) =>{
+    window.location.reload()
+}
+    ).catch( (error)=>{
+console.log('error',error);
+    }
+   )
+   }
+
+
 
   return (
     <>
@@ -82,9 +96,18 @@ const Tables = ({ columns, data, divided = false, defaultPageSize = 6 }) => {
                       type="button"
                       className="btn btn-primary mb-1 mr-5"
                     >
-                      RolesID
+                      Edit
                     </button> 
                     </Link>
+                
+                
+                <button
+                      type="button"
+                      className="btn btn-danger mb-1  mr-5"
+                      onClick={(e) => handleDelete(e,row.original._id)}
+                    >
+                      Delete
+                    </button>
                 </td>
               </tr>
             );

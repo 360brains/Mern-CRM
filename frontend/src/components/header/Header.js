@@ -209,6 +209,7 @@ const Header = () => {
               {/* <DropdownItem onClick={AccountPage}>Account</DropdownItem> */}
                 <DropdownItem divider />
                 <DropdownItem onClick={LogoutButtton}>Sign out</DropdownItem>
+                <DropdownItem>Settings</DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
           </div>

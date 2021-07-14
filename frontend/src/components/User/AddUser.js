@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
-// import { createNewUser } from "../../api/auth";
+import { createNewUser } from "../../api/auth";
 import isEmpty from "validator/lib/isEmpty";
 import { ErrorMessage } from "../Messages/message";
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { getRoles } from "../../api/role";
-import { editUser } from "../../api/auth";
-import { useParams } from 'react-router';
 import {
   Row,
   Card,
@@ -18,10 +16,7 @@ import {
 } from "reactstrap";
 // import { use } from '../../../../backend/routes/auth';
 
-const UserEdit = () => {
-
-  const {userId} =useParams()
-  console.log('userId',userId);
+const AddUser = () => {
 
   const [role, setRole] = useState()
 
@@ -87,7 +82,7 @@ const UserEdit = () => {
       console.log('password: ', password);
 
       console.log('formData: ', formData)
-      editUser(userId,{ username, email, password, role: selectedRole })
+      createNewUser({ username, email, password, role: selectedRole })
         .then((response) => {
           setUsertData({
             username: "",
@@ -168,10 +163,10 @@ const UserEdit = () => {
             /> */}
                         </div>
 
-                       <Dropdown 
+                        <Dropdown 
                          isOpen={dropdownOpen} toggle={toggle}>
                           <DropdownToggle caret 
-                          >                        
+                          >
                             {selectedRole}
                           </DropdownToggle>
                           <DropdownMenu >
@@ -193,7 +188,7 @@ const UserEdit = () => {
 
                     <div className="modal-footer">
                       <Button color="primary" type="submit" onClick={handleUserSubmit}>
-                       Update User
+                        Add User
                       </Button>
 
                     </div>
@@ -208,4 +203,4 @@ const UserEdit = () => {
   )
 }
 
-export default UserEdit
+export default AddUser

@@ -17,6 +17,7 @@ app.use('/api/product' , productRoutes)
 app.use('/api/role' , roleRoutes)
 
 
+
 app.use('/uploads' , express.static('uploads') )
 
 
