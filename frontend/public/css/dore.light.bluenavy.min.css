@@ -2624,12 +2624,12 @@ button {
     color: #00365a
 }
 
-/* main {
+main {
     margin-left: 410px;
     margin-top: 145px;
     margin-right: 60px;
     margin-bottom: 40px
-} */
+}
 
 main.default-transition {
     transition: margin-left .3s
@@ -2641,30 +2641,30 @@ main .container-fluid {
 }
 
 @media (max-width:1439px) {
-    /* main {
+    main {
         margin-left: 390px;
         margin-right: 50px;
         margin-top: 130px;
         margin-bottom: 30px
-    } */
+    }
 }
 
 @media (max-width:1199px) {
-    /* main {
+    main {
         margin-left: 370px;
         margin-right: 40px;
         margin-top: 110px;
         margin-bottom: 20px
-    } */
+    }
 }
 
 @media (max-width:767px) {
-    /* main {
+    main {
         margin-left: 15px!important;
         margin-right: 15px!important;
         margin-top: 80px!important;
         margin-bottom: 0
-    } */
+    }
 }
 
 @media (max-width:575px) {
@@ -2673,9 +2673,9 @@ main .container-fluid {
     }
 }
 
-/* #app-container.menu-hidden main, #app-container.menu-sub-hidden main, #app-container.sub-hidden main {
+#app-container.menu-hidden main, #app-container.menu-sub-hidden main, #app-container.sub-hidden main {
     margin-left: 180px
-} */
+}
 
 #app-container.main-hidden main, #app-container.menu-hidden main {
     margin-left: 60px
@@ -2690,9 +2690,9 @@ main .container-fluid {
 }
 
 @media (max-width:1439px) {
-    /* #app-container.menu-hidden main, #app-container.menu-sub-hidden main, #app-container.sub-hidden main {
+    #app-container.menu-hidden main, #app-container.menu-sub-hidden main, #app-container.sub-hidden main {
         margin-left: 160px
-    } */
+    }
     #app-container.main-hidden main, #app-container.menu-hidden main {
         margin-left: 50px
     }
@@ -2705,9 +2705,9 @@ main .container-fluid {
 }
 
 @media (max-width:1199px) {
-    /* #app-container.menu-hidden main, #app-container.menu-sub-hidden main, #app-container.sub-hidden main {
+    #app-container.menu-hidden main, #app-container.menu-sub-hidden main, #app-container.sub-hidden main {
         margin-left: 140px
-    } */
+    }
     #app-container.main-hidden main, #app-container.menu-hidden main {
         margin-left: 40px
     }

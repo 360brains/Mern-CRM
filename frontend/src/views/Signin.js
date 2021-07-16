@@ -163,7 +163,7 @@ const Signin = () => {
 
 
       <div className="background show-spinner no-footer login_signup_page">
-            <main>
+            <div>
               <div className="container">
                 <Row className="h-100">
                   <Colxx xxs="12" md="10" className="mx-auto">
@@ -253,7 +253,7 @@ const Signin = () => {
                   </Colxx>
                 </Row>
               </div>
-            </main>
+            </div>
           </div>
       )
 }
