@@ -78,8 +78,8 @@ const DataForms = (props) => {
 
   return (
     <form>
-      <Modal
-        style={{ marginRight: "10px", marginTop: "5px" }}
+      <Modal className="add_product_model"
+        style={{ marginRight: "10px", marginTop: "5px", }}
         isOpen={props.modal}
       >
         <ModalHeader toggle={props.closeModal}>Modal title</ModalHeader>
@@ -92,7 +92,7 @@ const DataForms = (props) => {
             defaultValue={productImage}
           />
           <div className="form-group">
-            <label className="text-secondary">Name</label>
+            <label className="text-secondary mt-2">Name</label>
             <input
               type="text"
               className="form-control"

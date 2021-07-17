@@ -94,7 +94,7 @@ const OrdersList = () => {
         <Row>
           <Colxx xxs="12">
             <h1>Users</h1>
-            <Breadcrumb className="pt-0 breadcrumb-container d-none d-sm-block d-lg-inline-block">
+            {/* <Breadcrumb className="pt-0 breadcrumb-container d-none d-sm-block d-lg-inline-block">
               <ol className="breadcrumb pt-0">
                 <li className="breadcrumb-item">
                   <Link to="/admin/dashboard">User</Link>
@@ -103,11 +103,11 @@ const OrdersList = () => {
                   all Users
                 </li>
               </ol>
-            </Breadcrumb>
+            </Breadcrumb> */}
             <Link to ='/adduser'>
                     <button
                       type="button"
-                      className="btn btn-primary mb-1 mr-5"
+                      className="btn btn-primary ml-3 mb-1 mr-5"
                     >
                       Add User
                     </button> 

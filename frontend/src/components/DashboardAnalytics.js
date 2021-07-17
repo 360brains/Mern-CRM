@@ -9,8 +9,8 @@ const DashboardAnalytics = () => {
       <main>
         <Row>
           <Colxx xxs="12">
-            <h1>Dashboard</h1>
-            <Breadcrumb className="pt-0 breadcrumb-container d-none d-sm-block d-lg-inline-block">
+            <h1 className="edit-heading">Dashboard</h1>
+            {/* <Breadcrumb className="pt-0 breadcrumb-container d-none d-sm-block d-lg-inline-block">
               <ol className="breadcrumb pt-0">
                 <li className="breadcrumb-item">
                   <Link to="/app">Home</Link>
@@ -19,7 +19,7 @@ const DashboardAnalytics = () => {
                   Data
                 </li>
               </ol>
-            </Breadcrumb>
+            </Breadcrumb> */}
           </Colxx>
         </Row>
         <Row>

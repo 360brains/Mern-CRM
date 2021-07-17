@@ -1832,8 +1832,8 @@ button {
 
 .logo {
     width: 110px;
-    height: 35px;
-    background: url(../logos/black.svg) no-repeat;
+    height: 45px;
+    background: url(../logos/navlogo.jpg) no-repeat;
     background-position: center center;
     margin: 0 auto
 }
@@ -1845,9 +1845,9 @@ button {
 }
 
 .logo-mobile {
-    width: 20px;
+    width: 75px;
     height: 35px;
-    background: url(../logos/mobile.svg) no-repeat;
+    background: url(../logos//navlogo.jpg) no-repeat;
     background-position: center center
 }
 
@@ -8206,7 +8206,7 @@ footer.page-footer {
     padding-bottom: 2.2rem;
     border-top: 1px solid #d7d7d7;
     width: 100%;
-    position: absolute;
+    position: relative;
     bottom: 0;
     width: 100%;
     height: 90px
@@ -9853,3 +9853,21 @@ footer.page-footer .footer-content {
     font-size: 14px;
     color: #007bff;
 }
+.edit-heading {
+    padding-left: 15px;
+}
+.add_product_model .modal-header, .modal-body, .modal-footer{
+    padding:1rem !important;
+}
+.modal-dialog {
+    width: 100% !important;
+    height: 100% !important;
+  }
+  
+.add_product_model .modal-content {
+    height: auto !important;
+    min-height: 100% !important;
+    width:85% !important;
+    margin-left:auto;
+    border-radius: 0 !important;
+  }
