@@ -10,6 +10,11 @@ import ImageCards from "../components/sidebar/ImageCards";
 import DashboardAnalytics from "../components/DashboardAnalytics";
 import DataForms from "../components/DataForms/DataForms";
 import DefaultTable from "../components/DataTables/DefaultTable";
+import UserRole from "../components/Roles/UserRole"
+import AddRole from "../components/Roles/AddRole"
+import EditRole from "../components/Roles/EditRole"
+
+
 
 
 
@@ -40,6 +45,11 @@ const Routing = () => {
             <AdminRoutes exact path="/form" component={DataForms} />
             <AdminRoutes exact path="/app" component={DashboardAnalytics} />
             <AdminRoutes exact path="/application" component={ImageCards} />
+            <AdminRoutes exact path="/userrole" component={UserRole} />
+            <AdminRoutes exact path="/addrole" component={AddRole} />
+            <AdminRoutes exact path="/editrole/:roleId" component={EditRole} />
+
+
             <Route path="/error">
               <Error />
             </Route>

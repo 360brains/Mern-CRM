@@ -30,8 +30,15 @@ const Sidebar = () => {
 
                             <li>
                                 <Link  to="/data">
-                                
+                                 
                                     <i class="iconsminds-three-arrow-fork"></i> Product
+                                    
+                        </Link>
+                            </li>
+                            <li>
+                                <Link  to="/userrole">
+                                 
+                                    <i class="iconsminds-arrow-left-in-circle"></i> Roles
                                     
                         </Link>
                             </li>

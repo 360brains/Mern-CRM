@@ -5,6 +5,10 @@ const roleSchema = new mongoose.Schema({
     role:{
         type: String,
         required: true
+    },
+    permissions:{
+        type:Object,
+        required:true
     }
 }, {timestamps: true})
 
